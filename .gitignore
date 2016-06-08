@@ -67,3 +67,9 @@ core.*
 
 # Ignore temporary backup directories.
 *-backup
+
+# Ignore write build dirs.
+/bin-clean
+/bin-fusion
+/bin-elimination
+/bin-fusion-elimination

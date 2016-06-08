@@ -1,5 +1,6 @@
 {-# LANGUAGE FlexibleContexts #-}
 {-# LANGUAGE TypeFamilies #-}
+{-# LANGUAGE CPP #-}
 module Futhark.Optimise.Fusion.LoopKernel
   ( FusedKer(..)
   , newKernel
@@ -299,6 +300,7 @@ fuseSOACwithKer unfus_set outVars soac1 ker = do
     -- Write fusion --
     ------------------
 
+#ifdef MAP_WRITE_FUSION
     -- Map-write fusion.
     (SOAC.Write _cs _len _lam _ivs as,
      SOAC.Map {})
@@ -306,7 +308,8 @@ fuseSOACwithKer unfus_set outVars soac1 ker = do
           let (extra_nms, res_lam', new_inp) = mapLikeFusionCheck
           success (outNames ker ++ extra_nms) $
             SOAC.Write (cs1++cs2) w res_lam' new_inp as
-
+#endif
+#ifdef WRITE_WRITE_FUSION
     -- Write-write fusion.
     (SOAC.Write _cs2 _len2 _lam2 ivs2 as2,
      SOAC.Write _cs1 _len1 _lam1 ivs1 as1)
@@ -328,7 +331,7 @@ fuseSOACwithKer unfus_set outVars soac1 ker = do
                             }
           success (outNames ker ++ returned_outvars) $
             SOAC.Write (cs1 ++ cs2) w lam' (ivs1 ++ ivs2) (as2 ++ as1)
-
+#endif
     (SOAC.Write {}, _) ->
       fail "Cannot fuse a write with anything else than a write or a map"
     (_, SOAC.Write {}) ->

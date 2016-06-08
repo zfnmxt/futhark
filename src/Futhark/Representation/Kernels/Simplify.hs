@@ -5,6 +5,7 @@
 {-# LANGUAGE FlexibleContexts #-}
 {-# LANGUAGE MultiParamTypeClasses #-}
 {-# LANGUAGE LambdaCase #-}
+{-# LANGUAGE CPP #-}
 module Futhark.Representation.Kernels.Simplify
        ( simplifyKernels
        , simplifyFun
@@ -145,7 +146,9 @@ topDownRules = [removeUnusedKernelInputs
                , fuseReduceIota
                , fuseScanIota
                , fuseChunkedMapIota
+#ifdef WRITE_IOTA_ELIMINATION
                , fuseWriteIota
+#endif
                ]
 
 bottomUpRules :: (MonadBinder m,

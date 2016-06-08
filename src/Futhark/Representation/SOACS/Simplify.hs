@@ -4,6 +4,7 @@
 {-# LANGUAGE FlexibleInstances #-}
 {-# LANGUAGE FlexibleContexts #-}
 {-# LANGUAGE MultiParamTypeClasses #-}
+{-# LANGUAGE CPP #-}
 module Futhark.Representation.SOACS.Simplify
        ( simplifySOACS
        , simplifyFun
@@ -149,7 +150,9 @@ topDownRules :: (MonadBinder m,
 topDownRules = [liftIdentityMapping,
                 removeReplicateMapping,
                 removeReplicateRedomap,
+#ifdef WRITE_REPLICATE_ELIMINATION
                 removeReplicateWrite,
+#endif
                 removeUnusedMapInput,
                 simplifyClosedFormRedomap,
                 simplifyClosedFormReduce,
