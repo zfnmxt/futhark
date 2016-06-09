@@ -1,0 +1,118 @@
+# ../futhark-benchmarks/rodinia/bfs/bfs_parallel_mapwrite_more.fut
+## clean
+dataset data/4096nodes.in: 3375.10us (average; relative standard deviation: 0.24)
+dataset data/65536nodes.in: 10285.70us (average; relative standard deviation: 0.04)
+dataset data/1Mnodes.in: 100246.10us (average; relative standard deviation: 0.02)
+dataset data/high_edge_variance_100K.in: 66672.20us (average; relative standard deviation: 0.04)
+dataset data/few_nodes_many_edges_1000n_1000e.in: 3229.20us (average; relative standard deviation: 0.01)
+dataset data/higher_edge_variance_5K.in: 42371.20us (average; relative standard deviation: 0.04)
+## fusion
+dataset data/4096nodes.in: 2305.70us (average; relative standard deviation: 0.01)
+dataset data/65536nodes.in: 8518.90us (average; relative standard deviation: 0.04)
+dataset data/1Mnodes.in: 81997.50us (average; relative standard deviation: 0.02)
+dataset data/high_edge_variance_100K.in: 57028.40us (average; relative standard deviation: 0.05)
+dataset data/few_nodes_many_edges_1000n_1000e.in: 3011.70us (average; relative standard deviation: 0.01)
+dataset data/higher_edge_variance_5K.in: 34730.50us (average; relative standard deviation: 0.04)
+## elimination
+dataset data/4096nodes.in: 2774.70us (average; relative standard deviation: 0.00)
+dataset data/65536nodes.in: 9521.80us (average; relative standard deviation: 0.00)
+dataset data/1Mnodes.in: 97587.30us (average; relative standard deviation: 0.01)
+dataset data/high_edge_variance_100K.in: 65778.80us (average; relative standard deviation: 0.04)
+dataset data/few_nodes_many_edges_1000n_1000e.in: 2961.80us (average; relative standard deviation: 0.01)
+dataset data/higher_edge_variance_5K.in: 41214.20us (average; relative standard deviation: 0.04)
+## fusion-elimination
+dataset data/4096nodes.in: 2568.60us (average; relative standard deviation: 0.02)
+dataset data/65536nodes.in: 8054.30us (average; relative standard deviation: 0.07)
+dataset data/1Mnodes.in: 81087.10us (average; relative standard deviation: 0.02)
+dataset data/high_edge_variance_100K.in: 56498.40us (average; relative standard deviation: 0.04)
+dataset data/few_nodes_many_edges_1000n_1000e.in: 2427.00us (average; relative standard deviation: 0.01)
+dataset data/higher_edge_variance_5K.in: 33388.00us (average; relative standard deviation: 0.04)
+
+
+# ../futhark-benchmarks/rodinia/bfs/bfs_parallel_segmented_alternate_more.fut
+## clean
+dataset data/4096nodes.in: 3810.50us (average; relative standard deviation: 0.01)
+dataset data/65536nodes.in: 9226.30us (average; relative standard deviation: 0.08)
+dataset data/1Mnodes.in: 64441.90us (average; relative standard deviation: 0.02)
+dataset data/high_edge_variance_100K.in: 63200.10us (average; relative standard deviation: 0.05)
+dataset data/few_nodes_many_edges_1000n_1000e.in: 7754.30us (average; relative standard deviation: 0.15)
+## fusion
+dataset data/4096nodes.in: 3135.20us (average; relative standard deviation: 0.04)
+dataset data/65536nodes.in: 8703.20us (average; relative standard deviation: 0.10)
+dataset data/1Mnodes.in: 59553.20us (average; relative standard deviation: 0.01)
+dataset data/high_edge_variance_100K.in: 56735.90us (average; relative standard deviation: 0.04)
+dataset data/few_nodes_many_edges_1000n_1000e.in: 7672.90us (average; relative standard deviation: 0.07)
+## elimination
+dataset data/4096nodes.in: 3581.80us (average; relative standard deviation: 0.00)
+dataset data/65536nodes.in: 9333.90us (average; relative standard deviation: 0.00)
+dataset data/1Mnodes.in: 62124.50us (average; relative standard deviation: 0.01)
+dataset data/high_edge_variance_100K.in: 61757.90us (average; relative standard deviation: 0.05)
+dataset data/few_nodes_many_edges_1000n_1000e.in: 9084.60us (average; relative standard deviation: 0.10)
+## fusion-elimination
+dataset data/4096nodes.in: 3401.70us (average; relative standard deviation: 0.03)
+dataset data/65536nodes.in: 10394.30us (average; relative standard deviation: 0.03)
+dataset data/1Mnodes.in: 63244.20us (average; relative standard deviation: 0.09)
+dataset data/high_edge_variance_100K.in: 56216.90us (average; relative standard deviation: 0.05)
+dataset data/few_nodes_many_edges_1000n_1000e.in: 8439.40us (average; relative standard deviation: 0.04)
+
+
+# ../futhark-benchmarks/rodinia/bfs/bfs_parallel_segmented_more.fut
+## clean
+dataset data/4096nodes.in: 13102.30us (average; relative standard deviation: 0.04)
+dataset data/65536nodes.in: 28692.30us (average; relative standard deviation: 0.08)
+dataset data/1Mnodes.in: 68491.80us (average; relative standard deviation: 0.07)
+dataset data/high_edge_variance_100K.in: 43784.90us (average; relative standard deviation: 0.03)
+dataset data/few_nodes_many_edges_1000n_1000e.in: 8584.40us (average; relative standard deviation: 0.12)
+dataset data/higher_edge_variance_5K.in: 54042.80us (average; relative standard deviation: 0.02)
+## fusion
+dataset data/4096nodes.in: 10214.90us (average; relative standard deviation: 0.01)
+dataset data/65536nodes.in: 22539.20us (average; relative standard deviation: 0.06)
+dataset data/1Mnodes.in: 63959.20us (average; relative standard deviation: 0.06)
+dataset data/high_edge_variance_100K.in: 43683.00us (average; relative standard deviation: 0.04)
+dataset data/few_nodes_many_edges_1000n_1000e.in: 8208.50us (average; relative standard deviation: 0.00)
+dataset data/higher_edge_variance_5K.in: 50856.60us (average; relative standard deviation: 0.05)
+## elimination
+dataset data/4096nodes.in: 9347.90us (average; relative standard deviation: 0.01)
+dataset data/65536nodes.in: 20887.40us (average; relative standard deviation: 0.06)
+dataset data/1Mnodes.in: 58004.70us (average; relative standard deviation: 0.06)
+dataset data/high_edge_variance_100K.in: 40397.40us (average; relative standard deviation: 0.02)
+dataset data/few_nodes_many_edges_1000n_1000e.in: 7462.40us (average; relative standard deviation: 0.00)
+dataset data/higher_edge_variance_5K.in: 53348.90us (average; relative standard deviation: 0.04)
+## fusion-elimination
+dataset data/4096nodes.in: 10974.30us (average; relative standard deviation: 0.10)
+dataset data/65536nodes.in: 20010.50us (average; relative standard deviation: 0.09)
+dataset data/1Mnodes.in: 58657.00us (average; relative standard deviation: 0.06)
+dataset data/high_edge_variance_100K.in: 40223.20us (average; relative standard deviation: 0.07)
+dataset data/few_nodes_many_edges_1000n_1000e.in: 6672.80us (average; relative standard deviation: 0.01)
+dataset data/higher_edge_variance_5K.in: 48918.70us (average; relative standard deviation: 0.05)
+
+
+# ../futhark-benchmarks/rodinia/bfs/bfs_parallel_simple_more.fut
+## clean
+dataset data/4096nodes.in: 6253.10us (average; relative standard deviation: 0.25)
+dataset data/65536nodes.in: 12421.00us (average; relative standard deviation: 0.02)
+dataset data/1Mnodes.in: 37483.00us (average; relative standard deviation: 0.05)
+dataset data/high_edge_variance_100K.in: 26180.10us (average; relative standard deviation: 0.02)
+dataset data/few_nodes_many_edges_1000n_1000e.in: 3557.60us (average; relative standard deviation: 0.02)
+dataset data/higher_edge_variance_5K.in: 25033.40us (average; relative standard deviation: 0.03)
+## fusion
+dataset data/4096nodes.in: 6049.70us (average; relative standard deviation: 0.07)
+dataset data/65536nodes.in: 13125.70us (average; relative standard deviation: 0.13)
+dataset data/1Mnodes.in: 34810.90us (average; relative standard deviation: 0.04)
+dataset data/high_edge_variance_100K.in: 25159.90us (average; relative standard deviation: 0.04)
+dataset data/few_nodes_many_edges_1000n_1000e.in: 3575.20us (average; relative standard deviation: 0.20)
+dataset data/higher_edge_variance_5K.in: 20254.10us (average; relative standard deviation: 0.01)
+## elimination
+dataset data/4096nodes.in: 5315.80us (average; relative standard deviation: 0.02)
+dataset data/65536nodes.in: 10739.30us (average; relative standard deviation: 0.00)
+dataset data/1Mnodes.in: 30481.20us (average; relative standard deviation: 0.06)
+dataset data/high_edge_variance_100K.in: 22903.90us (average; relative standard deviation: 0.03)
+dataset data/few_nodes_many_edges_1000n_1000e.in: 2831.10us (average; relative standard deviation: 0.02)
+dataset data/higher_edge_variance_5K.in: 23157.60us (average; relative standard deviation: 0.03)
+## fusion-elimination
+dataset data/4096nodes.in: 4358.80us (average; relative standard deviation: 0.02)
+dataset data/65536nodes.in: 10500.60us (average; relative standard deviation: 0.04)
+dataset data/1Mnodes.in: 29369.20us (average; relative standard deviation: 0.07)
+dataset data/high_edge_variance_100K.in: 22803.80us (average; relative standard deviation: 0.03)
+dataset data/few_nodes_many_edges_1000n_1000e.in: 2889.50us (average; relative standard deviation: 0.18)
+dataset data/higher_edge_variance_5K.in: 18091.90us (average; relative standard deviation: 0.04)
