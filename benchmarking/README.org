@@ -5,6 +5,18 @@ All in microseconds.
 
 * BFS
 
+Datasets:
+
+  + 4096nodes: From Rodinia.  4096 nodes.  Each node has below 10 edges.
+  + 65536nodes: From Rodinia.  65536 nodes.  Each node has below 10 edges.
+  + 1Mnodes: From Rodinia.  1 million nodes.  Each node has below 10 edges.
+  + high_edge_variance_100K: From Niels.  100,000 nodes.  Each node has between
+    5 and 200 edges.
+  + few_nodes_many_edges_1000n_1000e: From Niels.  1000 nodes.  Each node has
+    1000 edges.
+  + higher_edge_variance_5K: From Niels.  5000 nodes.  Each node has between 5
+    and 5000 edges.
+
 ** Rodinia
 
 | Dataset                          |  Rodinia |
