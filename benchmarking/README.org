@@ -19,6 +19,11 @@ All in microseconds.
 
 ** Futhark
 
+Legend:
+
+  + "fusion" includes write-write fusion and map-write fusion.
+  + "elimination" includes replicate elimination and iota elimination.
+
 *** bfs_parallel_simple_more.fut
 
 | Dataset                          |    clean |   fusion | elimination | fusion + elimination |
