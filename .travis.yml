@@ -11,9 +11,14 @@ cache:
 # We test against different Stackage snapshots.
 matrix:
   include:
-    - env: BUILD=stack STACK_YAML=stack.yaml
-    - env: BUILD=stack STACK_YAML=stack-lts-7.24.yaml
-    - env: BUILD=stack STACK_YAML=stack-lts-9.2.yaml
+    - os: linux
+      env: BUILD=stack STACK_YAML=stack.yaml
+    - os: linux
+      env: BUILD=stack STACK_YAML=stack-lts-7.24.yaml
+    - os: linux
+      env: BUILD=stack STACK_YAML=stack-lts-9.2.yaml
+    - os: osx
+      env: BUILD=stack STACK_YAML=stack.yaml
 
 addons:
   apt:
