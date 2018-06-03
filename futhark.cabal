@@ -1,0 +1,337 @@
+cabal-version:  2.2
+name:           futhark
+version:        0.6.1
+synopsis:       An optimising compiler for a functional, array-oriented language.
+description:    See the website at https://futhark-lang.org
+category:       Language
+homepage:       https://futhark-lang.org
+bug-reports:    https://github.com/diku-dk/futhark/issues
+maintainer:     Troels Henriksen athas@sigkill.dk
+license:        ISC
+license-file:   LICENSE
+build-type:     Simple
+extra-source-files:
+    futlib/*.fut
+    rts/c/*.h
+    rts/python/*.py
+
+source-repository head
+  type: git
+  location: https://github.com/diku-dk/futhark
+
+common libdeps
+  ghc-options: -Wall -Wcompat -Wredundant-constraints -Wincomplete-record-updates
+  default-language: Haskell2010
+  build-depends:
+      array >=0.4
+    , base >=4 && <5
+    , bifunctors
+    , binary
+    , blaze-html
+    , bytestring
+    , containers >=0.5
+    , data-binary-ieee754
+    , directory
+    , directory-tree
+    , dlist >=0.6.0.1
+    , extra
+    , file-embed >=0.0.9
+    , filepath
+    , gitrev >=1.2.0
+    , language-c-quote >=0.12
+    , mainland-pretty >=0.6
+    , markdown
+    , mtl >=2.2.1
+    , neat-interpolation >=0.3
+    , parallel >=3.2.1.0
+    , parsec >=3
+    , process
+    , raw-strings-qq
+    , regex-tdfa >=1.2
+    , srcloc >=0.4
+    , template-haskell
+    , text
+    , th-lift-instances
+    , transformers >=0.3
+    , vector
+    , vector-binary-instances
+  build-tools:
+      alex
+    , happy
+  if !impl(ghc >= 8.0)
+    build-depends:
+        semigroups ==0.18.*
+
+common exe
+  import: libdeps
+  build-depends:
+      futhark
+    , random
+    , process-extras
+    , temporary
+    , json
+  ghc-options: -Wall -Wcompat -Wredundant-constraints -Wincomplete-record-updates -threaded -rtsopts "-with-rtsopts=-N -qg"
+
+library
+  import: libdeps
+  hs-source-dirs:
+      src
+  exposed-modules:
+      Futhark.Actions
+      Futhark.Analysis.AlgSimplify
+      Futhark.Analysis.Alias
+      Futhark.Analysis.CallGraph
+      Futhark.Analysis.DataDependencies
+      Futhark.Analysis.HORepresentation.MapNest
+      Futhark.Analysis.HORepresentation.SOAC
+      Futhark.Analysis.Metrics
+      Futhark.Analysis.PrimExp
+      Futhark.Analysis.PrimExp.Convert
+      Futhark.Analysis.PrimExp.Simplify
+      Futhark.Analysis.Range
+      Futhark.Analysis.Rephrase
+      Futhark.Analysis.ScalExp
+      Futhark.Analysis.SymbolTable
+      Futhark.Analysis.Usage
+      Futhark.Analysis.UsageTable
+      Futhark.Binder
+      Futhark.Binder.Class
+      Futhark.CodeGen.Backends.COpenCL
+      Futhark.CodeGen.Backends.COpenCL.Boilerplate
+      Futhark.CodeGen.Backends.GenericC
+      Futhark.CodeGen.Backends.GenericC.Options
+      Futhark.CodeGen.Backends.GenericPython
+      Futhark.CodeGen.Backends.GenericPython.AST
+      Futhark.CodeGen.Backends.GenericPython.Definitions
+      Futhark.CodeGen.Backends.GenericPython.Options
+      Futhark.CodeGen.Backends.PyOpenCL
+      Futhark.CodeGen.Backends.PyOpenCL.Boilerplate
+      Futhark.CodeGen.Backends.SequentialC
+      Futhark.CodeGen.Backends.SequentialPython
+      Futhark.CodeGen.Backends.SimpleRepresentation
+      Futhark.CodeGen.ImpCode
+      Futhark.CodeGen.ImpCode.Kernels
+      Futhark.CodeGen.ImpCode.OpenCL
+      Futhark.CodeGen.ImpCode.Sequential
+      Futhark.CodeGen.ImpGen
+      Futhark.CodeGen.ImpGen.Kernels
+      Futhark.CodeGen.ImpGen.Kernels.ToOpenCL
+      Futhark.CodeGen.ImpGen.OpenCL
+      Futhark.CodeGen.ImpGen.Sequential
+      Futhark.CodeGen.OpenCL.Kernels
+      Futhark.CodeGen.SetDefaultSpace
+      Futhark.Compiler
+      Futhark.Compiler.CLI
+      Futhark.Compiler.Program
+      Futhark.Compiler.TH
+      Futhark.Construct
+      Futhark.Doc.Generator
+      Futhark.Doc.Html
+      Futhark.Error
+      Futhark.FreshNames
+      Futhark.Internalise
+      Futhark.Internalise.AccurateSizes
+      Futhark.Internalise.Bindings
+      Futhark.Internalise.Defunctionalise
+      Futhark.Internalise.Defunctorise
+      Futhark.Internalise.Lambdas
+      Futhark.Internalise.Monad
+      Futhark.Internalise.Monomorphise
+      Futhark.Internalise.TypesValues
+      Futhark.Interpreter
+      Futhark.MonadFreshNames
+      Futhark.Optimise.CSE
+      Futhark.Optimise.DoubleBuffer
+      Futhark.Optimise.Fusion
+      Futhark.Optimise.Fusion.Composing
+      Futhark.Optimise.Fusion.LoopKernel
+      Futhark.Optimise.Fusion.TryFusion
+      Futhark.Optimise.InliningDeadFun
+      Futhark.Optimise.InPlaceLowering
+      Futhark.Optimise.InPlaceLowering.LowerIntoStm
+      Futhark.Optimise.InPlaceLowering.SubstituteIndices
+      Futhark.Optimise.MemoryBlockMerging
+      Futhark.Optimise.MemoryBlockMerging.ActualVariables
+      Futhark.Optimise.MemoryBlockMerging.AllExpVars
+      Futhark.Optimise.MemoryBlockMerging.AuxiliaryInfo
+      Futhark.Optimise.MemoryBlockMerging.Coalescing
+      Futhark.Optimise.MemoryBlockMerging.Coalescing.AllocationMovingUp
+      Futhark.Optimise.MemoryBlockMerging.Coalescing.Core
+      Futhark.Optimise.MemoryBlockMerging.Coalescing.Exps
+      Futhark.Optimise.MemoryBlockMerging.Coalescing.SafetyCondition2
+      Futhark.Optimise.MemoryBlockMerging.Coalescing.SafetyCondition3
+      Futhark.Optimise.MemoryBlockMerging.Coalescing.SafetyCondition5
+      Futhark.Optimise.MemoryBlockMerging.CrudeMovingUp
+      Futhark.Optimise.MemoryBlockMerging.Existentials
+      Futhark.Optimise.MemoryBlockMerging.Liveness.FirstUse
+      Futhark.Optimise.MemoryBlockMerging.Liveness.Interference
+      Futhark.Optimise.MemoryBlockMerging.Liveness.LastUse
+      Futhark.Optimise.MemoryBlockMerging.MemoryAliases
+      Futhark.Optimise.MemoryBlockMerging.MemoryUpdater
+      Futhark.Optimise.MemoryBlockMerging.Miscellaneous
+      Futhark.Optimise.MemoryBlockMerging.PrimExps
+      Futhark.Optimise.MemoryBlockMerging.Reuse
+      Futhark.Optimise.MemoryBlockMerging.Reuse.AllocationSizeMovingUp
+      Futhark.Optimise.MemoryBlockMerging.Reuse.AllocationSizes
+      Futhark.Optimise.MemoryBlockMerging.Reuse.AllocationSizeUses
+      Futhark.Optimise.MemoryBlockMerging.Reuse.Core
+      Futhark.Optimise.MemoryBlockMerging.Types
+      Futhark.Optimise.MemoryBlockMerging.VariableAliases
+      Futhark.Optimise.MemoryBlockMerging.VariableMemory
+      Futhark.Optimise.Simplify
+      Futhark.Optimise.Simplify.ClosedForm
+      Futhark.Optimise.Simplify.Engine
+      Futhark.Optimise.Simplify.Lore
+      Futhark.Optimise.Simplify.Rule
+      Futhark.Optimise.Simplify.Rules
+      Futhark.Optimise.TileLoops
+      Futhark.Optimise.Unstream
+      Futhark.Pass
+      Futhark.Pass.ExpandAllocations
+      Futhark.Pass.ExplicitAllocations
+      Futhark.Pass.ExtractKernels
+      Futhark.Pass.ExtractKernels.BlockedKernel
+      Futhark.Pass.ExtractKernels.Distribution
+      Futhark.Pass.ExtractKernels.Interchange
+      Futhark.Pass.ExtractKernels.Intragroup
+      Futhark.Pass.ExtractKernels.ISRWIM
+      Futhark.Pass.ExtractKernels.Kernelise
+      Futhark.Pass.ExtractKernels.Segmented
+      Futhark.Pass.FirstOrderTransform
+      Futhark.Pass.KernelBabysitting
+      Futhark.Pass.Simplify
+      Futhark.Passes
+      Futhark.Pipeline
+      Futhark.Representation.Aliases
+      Futhark.Representation.AST
+      Futhark.Representation.AST.Annotations
+      Futhark.Representation.AST.Attributes
+      Futhark.Representation.AST.Attributes.Aliases
+      Futhark.Representation.AST.Attributes.Constants
+      Futhark.Representation.AST.Attributes.Names
+      Futhark.Representation.AST.Attributes.Patterns
+      Futhark.Representation.AST.Attributes.Ranges
+      Futhark.Representation.AST.Attributes.Rearrange
+      Futhark.Representation.AST.Attributes.Reshape
+      Futhark.Representation.AST.Attributes.Scope
+      Futhark.Representation.AST.Attributes.TypeOf
+      Futhark.Representation.AST.Attributes.Types
+      Futhark.Representation.AST.Attributes.Values
+      Futhark.Representation.AST.Pretty
+      Futhark.Representation.AST.RetType
+      Futhark.Representation.AST.Syntax
+      Futhark.Representation.AST.Syntax.Core
+      Futhark.Representation.AST.Traversals
+      Futhark.Representation.ExplicitMemory
+      Futhark.Representation.ExplicitMemory.IndexFunction
+      Futhark.Representation.ExplicitMemory.Lmad
+      Futhark.Representation.ExplicitMemory.Simplify
+      Futhark.Representation.Kernels
+      Futhark.Representation.Kernels.Kernel
+      Futhark.Representation.Kernels.KernelExp
+      Futhark.Representation.Kernels.Simplify
+      Futhark.Representation.Kernels.Sizes
+      Futhark.Representation.Primitive
+      Futhark.Representation.Ranges
+      Futhark.Representation.SOACS
+      Futhark.Representation.SOACS.Simplify
+      Futhark.Representation.SOACS.SOAC
+      Futhark.Test
+      Futhark.Test.Values
+      Futhark.Tools
+      Futhark.Transform.CopyPropagate
+      Futhark.Transform.FirstOrderTransform
+      Futhark.Transform.Rename
+      Futhark.Transform.Substitute
+      Futhark.TypeCheck
+      Futhark.Util
+      Futhark.Util.IntegralExp
+      Futhark.Util.Log
+      Futhark.Util.Options
+      Futhark.Util.Pretty
+      Futhark.Version
+      Language.Futhark
+      Language.Futhark.Attributes
+      Language.Futhark.Core
+      Language.Futhark.Futlib
+      Language.Futhark.Futlib.Prelude
+      Language.Futhark.Parser
+      Language.Futhark.Pretty
+      Language.Futhark.Semantic
+      Language.Futhark.Syntax
+      Language.Futhark.TH
+      Language.Futhark.Traversals
+      Language.Futhark.TypeChecker
+      Language.Futhark.TypeChecker.Monad
+      Language.Futhark.TypeChecker.Terms
+      Language.Futhark.TypeChecker.Types
+  other-modules:
+      Language.Futhark.Parser.Parser
+      Language.Futhark.Parser.Lexer
+      Paths_futhark
+
+executable futhark
+  import: exe
+  main-is: src/futhark.hs
+
+executable futhark-bench
+  import: exe
+  main-is: src/futhark-bench.hs
+
+executable futhark-c
+  import: exe
+  main-is: src/futhark-c.hs
+
+executable futhark-dataset
+  import: exe
+  main-is: src/futhark-dataset.hs
+
+executable futhark-doc
+  import: exe
+  main-is: src/futhark-doc.hs
+
+executable futhark-opencl
+  import: exe
+  main-is: src/futhark-opencl.hs
+
+executable futhark-py
+  import: exe
+  main-is: src/futhark-py.hs
+
+executable futhark-pyopencl
+  import: exe
+  main-is: src/futhark-pyopencl.hs
+
+executable futhark-test
+  import: exe
+  main-is: src/futhark-test.hs
+
+executable futharki
+  import: exe
+  main-is: src/futharki.hs
+  build-depends: haskeline
+
+test-suite unit
+  import: libdeps
+  type: exitcode-stdio-1.0
+  main-is: futhark_tests.hs
+  hs-source-dirs:
+      unittests
+  build-depends:
+      futhark
+    , HUnit
+    , QuickCheck >=2.8
+  other-modules:
+      Futhark.Analysis.ScalExpTests
+      Futhark.Optimise.AlgSimplifyTests
+      Futhark.Representation.AST.Attributes.RearrangeTests
+      Futhark.Representation.AST.Attributes.ReshapeTests
+      Futhark.Representation.AST.Attributes.ValuesTests
+      Futhark.Representation.AST.AttributesTests
+      Futhark.Representation.AST.Syntax.CoreTests
+      Futhark.Representation.AST.SyntaxTests
+      Futhark.Representation.PrimitiveTests
+      Language.Futhark.CoreTests
+      Language.Futhark.SyntaxTests
+      Paths_futhark
+  default-language: Haskell2010

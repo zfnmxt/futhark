@@ -63,10 +63,10 @@ copyright = '2013-2018, DIKU, University of Copenhagen'
 # No reason for a full YAML parser; let's just hack it.
 def get_version():
     # Get lines
-    lines = open('../package.yaml', 'r').read().split('\n')
+    lines = open('../futhark.cabal', 'r').read().split('\n')
     # Find version line.
-    version_line = lines[1]
-    return re.search('version: "(.*)"', version_line).group(1)
+    version_line = lines[2]
+    return re.search('version: *([^ ]*)$', version_line).group(1)
 
 version = get_version()
 # The full version, including alpha/beta/rc tags.
