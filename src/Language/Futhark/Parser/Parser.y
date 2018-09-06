@@ -450,16 +450,20 @@ TypeExpAtom :: { UncheckedTypeExp }
              | '{' '}'                        { TERecord [] (srcspan $1 $>) }
              | '{' FieldTypes1 '}'            { TERecord $2 (srcspan $1 $>) }
              | QualName                       { TEVar (fst $1) (snd $1) }
-             | Enum                           { TESum (map (\n -> (n, [])) (fst $1))  (snd $1)}
+             | TypeClause1                    { TESum (map (\n -> (n, [])) (fst $1)) (snd $1)}
 
-Enum :: { ([Name], SrcLoc) }
-Enum  : ValueConstr { ([fst $1], snd $1) }
-      | ValueConstr '|' Enum
-        { let names = fst $1 : fst $3; loc = srcspan (snd $1) (snd $3) in (names, loc) }
+TypeClause1 :: { [(Name, [UncheckedTypeExp], SrcLoc)] }
+             : TypeClause      { (snd $1, [$1]) }
+             | TypeClause '|' TypeClause1 { $1 : $3 }
 
+TypeClause :: { (Name, [UncheckedTypeExp], SrcLoc) }
+            : ValueConstr ConstrTypes { (fst $1, $2, snd $1) }
+
+ConstrTypes :: { [UncheckedTypeExp] }
+             : TypeExpAtom ConstrTypes  { $1 : $2 }        --- TODO: Switch to TypeExpTerm
+             |                           { [] }
 ValueConstr :: { (Name, SrcLoc) }
-             : '#' id  { let L _ (ID c) = $2 in  (c, srclocOf $1) }
-
+: '#' id { let L _ (ID c) = $2 in (c, srclocOf $1)}
 
 TypeArg :: { TypeArgExp Name }
          : '[' DimDecl ']' { TypeArgExpDim (fst $2) (srcspan $1 $>) }
