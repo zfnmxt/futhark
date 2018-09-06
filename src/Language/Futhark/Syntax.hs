@@ -395,6 +395,7 @@ data TypeExp vn = TEVar (QualName vn) SrcLoc
                 | TEUnique (TypeExp vn) SrcLoc
                 | TEApply (TypeExp vn) (TypeArgExp vn) SrcLoc
                 | TEArrow (Maybe vn) (TypeExp vn) (TypeExp vn) SrcLoc
+                | TESum [(Name, [TypeExp vn])] SrcLoc
                  deriving (Eq, Show)
 
 instance Located (TypeExp vn) where
@@ -405,6 +406,7 @@ instance Located (TypeExp vn) where
   locOf (TEUnique _ loc)    = locOf loc
   locOf (TEApply _ _ loc)   = locOf loc
   locOf (TEArrow _ _ _ loc) = locOf loc
+  locOf (TESum _ loc) = locOf loc
 
 data TypeArgExp vn = TypeArgExpDim (DimDecl vn) SrcLoc
                    | TypeArgExpType (TypeExp vn)

@@ -93,6 +93,7 @@ import Language.Futhark.Parser.Lexer
       '-'             { L $$ NEGATE }
       '<'             { L $$ LTH }
       '^'             { L $$ HAT }
+      '|'             { L $$ PIPE }
 
       '+...'          { L _ (SYMBOL Plus _ _) }
       '-...'          { L _ (SYMBOL Minus _ _) }
@@ -166,7 +167,7 @@ import Language.Futhark.Parser.Lexer
 %left '||...'
 %left '&&...'
 %left '<=...' '>=...' '>...' '<' '<...' '==...' '!=...'
-%left '&...' '^...' '^' '|...'
+%left '&...' '^...' '^' '|...' '|'
 %left '<<...' '>>...' '>>>...'
 %left '+...' '-...' '-'
 %left '*...' '*' '/...' '%...' '//...' '%%...'
@@ -174,7 +175,7 @@ import Language.Futhark.Parser.Lexer
 %right '->'
 %left juxtprec
 %nonassoc with
-%left indexprec
+%left indexprec typeclause
 %%
 
 -- The main parser.
@@ -348,6 +349,7 @@ BinOp :: { QualName Name }
       | '^'        { qualName (nameFromString "^") }
       | '&...'     { binOpName $1 }
       | '|...'     { binOpName $1 }
+      | '|'        { qualName (nameFromString "|") }
       | '>>...'    { binOpName $1 }
       | '>>>...'   { binOpName $1 }
       | '<<...'    { binOpName $1 }
@@ -448,6 +450,16 @@ TypeExpAtom :: { UncheckedTypeExp }
              | '{' '}'                        { TERecord [] (srcspan $1 $>) }
              | '{' FieldTypes1 '}'            { TERecord $2 (srcspan $1 $>) }
              | QualName                       { TEVar (fst $1) (snd $1) }
+             | Enum                           { TESum (map (\n -> (n, [])) (fst $1))  (snd $1)}
+
+Enum :: { ([Name], SrcLoc) }
+Enum  : ValueConstr { ([fst $1], snd $1) }
+      | ValueConstr '|' Enum
+        { let names = fst $1 : fst $3; loc = srcspan (snd $1) (snd $3) in (names, loc) }
+
+ValueConstr :: { (Name, SrcLoc) }
+             : '#' id  { let L _ (ID c) = $2 in  (c, srclocOf $1) }
+
 
 TypeArg :: { TypeArgExp Name }
          : '[' DimDecl ']' { TypeArgExpDim (fst $2) (srcspan $1 $>) }
@@ -535,6 +547,7 @@ Exp2 :: { UncheckedExp }
      | Exp2 '<<...' Exp2   { binOp $1 $2 $3 }
      | Exp2 '&...' Exp2    { binOp $1 $2 $3 }
      | Exp2 '|...' Exp2    { binOp $1 $2 $3 }
+     | Exp2 '|' Exp2       { binOp $1 (L $2 (SYMBOL Bor [] (nameFromString "|"))) $3 }
      | Exp2 '&&...' Exp2   { binOp $1 $2 $3 }
      | Exp2 '||...' Exp2   { binOp $1 $2 $3 }
      | Exp2 '^...' Exp2    { binOp $1 $2 $3 }
