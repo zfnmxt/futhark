@@ -639,7 +639,6 @@ Atom : PrimLit        { Literal (fst $1) (snd $1) }
      | '(' '.' '[' DimIndices ']' ')'
        { IndexSection $4 NoInfo (srcspan $1 $>) }
 
-
 PrimLit :: { (PrimValue, SrcLoc) }
         : true   { (BoolValue True, $1) }
         | false  { (BoolValue False, $1) }
